@@ -8,7 +8,7 @@ namespace WebAPI
 {
     public class DropboxClient
     {
-        private string ACCESS_TOKEN = "sl.BWUpFog5v1PlgQQ0SEYY50wHx5arPp6htKbd5dVeK4k9n-etlFqJ-O2piCr4c11Wj-AgDuspryd72xxjQ9SbeaeV1h9IPo9NDuxgo1Er-oBxJYPmXOsKQfdg5jVTaH_9u24QoH4";
+        private string ACCESS_TOKEN = "sl.BWj5-MwImjrmf-Bl0shGOjfrptxyUOOMlzWRJEpcbDk0KA4n1rxZ0luaZUv5tpJq3rT6Q5I6BKxqaLQSgBtPoguXbmcmNoflAqF5tcPUh7FQ9gwqocIDYe_aJ1gFFQAUX8qRjxg";
         private HttpClient _client;
 
         public DropboxClient()
@@ -16,7 +16,7 @@ namespace WebAPI
             _client = new HttpClient();
         }
 
-        public void UploadFile(string filePath, string dropboxPath)
+        public JObject UploadFile(string filePath, string dropboxPath)
         {
             // Set up the HTTP request
             var request = new HttpRequestMessage
@@ -39,6 +39,7 @@ namespace WebAPI
             {
                 throw new Exception("Failed to upload file");
             }
+            return JObject.Parse(response.Content.ReadAsStringAsync().Result);
         }
 
         public JObject GetFileMetadata(string dropboxPath)
@@ -60,7 +61,7 @@ namespace WebAPI
             return JObject.Parse(response.Content.ReadAsStringAsync().Result);
         }
 
-        public void DeleteFile(string dropboxPath)
+        public JObject DeleteFile(string dropboxPath)
         {
             // Set up the HTTP request
             var request = new HttpRequestMessage
@@ -81,6 +82,7 @@ namespace WebAPI
             {
                 throw new Exception("Failed to delete file");
             }
+            return JObject.Parse(response.Content.ReadAsStringAsync().Result);
         }
     }
 }

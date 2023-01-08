@@ -7,7 +7,12 @@ namespace WebAPI
         public void CanUploadFile()
         {
             var client = new DropboxClient();
-            client.UploadFile("../../../test.txt", "/WebAPI/test.txt");
+            var metadata = client.UploadFile("../../../test.txt", "/WebAPI/test.txt");
+
+            // Ensure that the response contains the metadata for the file
+            JToken nameToken, content_hashToken;
+            Assert.IsTrue(metadata.TryGetValue("name", out nameToken));
+            Assert.IsTrue(metadata.TryGetValue("content_hash", out content_hashToken));
         }
 
         [Test, Order(2)]
@@ -26,7 +31,13 @@ namespace WebAPI
         public void CanDeleteFile()
         {
             var client = new DropboxClient();
-            client.DeleteFile("/WebAPI/test.txt");
+            var metadata = client.DeleteFile("/WebAPI/test.txt");
+
+            // Ensure that the response contains the metadata for the file
+            JToken sizeToken, modifiedToken, errorToken;
+            Assert.IsTrue(metadata.TryGetValue("size", out sizeToken));
+            Assert.IsTrue(metadata.TryGetValue("name", out modifiedToken));
+            Assert.IsFalse(metadata.TryGetValue("error", out errorToken));
         }
     }
 }
