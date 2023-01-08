@@ -23,7 +23,7 @@ namespace OrangeHRMTests
             var result = logPage.LoginAsAdmin(new UserList("Admin", "admin123"))
                 .GoToAdminPanel()
                 .GoToJobScenario()
-                .CreatingNewJob(new JobInfo("Tester", ".NET", "C#"));
+                .CreatingNewJob(new JobInfo("Student", ".NET", "C#"));
             Assert.False(result);
         }
 
